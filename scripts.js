@@ -6,6 +6,7 @@ function loadHeader() {
         const headerElement = document.createElement('header');
         headerElement.innerHTML = headerContent;
         document.body.insertBefore(headerElement, document.body.firstChild);
+        return headerContent;
       });
   }
   
@@ -17,6 +18,7 @@ function loadHeader() {
         const footerElement = document.createElement('footer');
         footerElement.innerHTML = footerContent;
         document.body.appendChild(footerElement);
+        return footerContent;
       });
   }
   
@@ -27,17 +29,15 @@ function loadHeader() {
       .then(indexContent => {
         const mainElement = document.createElement('main');
         mainElement.innerHTML = indexContent;
-        document.body.appendChild(mainElement);
+  
+        // Carregar cabeçalho e rodapé após o carregamento do conteúdo principal
+        Promise.all([loadHeader(), loadFooter()])
+          .then(() => {
+            document.body.appendChild(mainElement);
+          });
       });
   }
   
-  // Carregar o cabeçalho, conteúdo e rodapé
-  function loadPage() {
-    loadHeader();
-    loadContent();
-    loadFooter();
-  }
-  
   // Chamar a função para carregar a página
-  loadPage();
+  loadContent();
   
